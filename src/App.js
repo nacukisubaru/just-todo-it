@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import AppDrawer from "./components/Drawer/AppDrawer";
+import {useConnect, useDatabase} from "./api/apiHooks/index"
+import { useGetGroupList } from "./api/apiHooks/groupHooks";
+import  {useDispatch} from "react-redux";
+import {setGroupsList} from "./redux/actions/groupAction";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const dispatch = useDispatch();
+    const db = useConnect();
+    dispatch(setGroupsList(db))
+    return <AppDrawer></AppDrawer>;
 }
 
 export default App;
