@@ -24,6 +24,7 @@ function AppDrawer(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
+    <div>
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar
@@ -43,7 +44,7 @@ function AppDrawer(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="span">
             Responsive drawer
           </Typography>
         </Toolbar>
@@ -85,11 +86,12 @@ function AppDrawer(props) {
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
         <Toolbar />
-        <Typography paragraph>
+        <Typography component={'span'} paragraph>
          <TodoList></TodoList>
         </Typography>
       </Box>
     </Box>
+    </div>
   );
 }
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { connectDB } from "../apiConnect/connect";
 import { apiManager } from "../../redux/actions/apiAction";
 import { useDispatch, useSelector } from "react-redux";
