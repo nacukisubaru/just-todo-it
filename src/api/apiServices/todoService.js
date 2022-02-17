@@ -25,4 +25,9 @@ export default class TodoDataService extends DataService {
         const result = await this.getList(filter);
 		return result;
     };
+
+    changeComplete = async(isComplete) => {
+        console.log({isComplete})
+        return await this.updateDocField({isComplete})
+    }
 }

@@ -15,3 +15,7 @@ code {
 .wrap-bottom {
   margin-bottom: 30px;
 }
+
+.todo-is-complete-true {
+  text-decoration: line-through;
+}

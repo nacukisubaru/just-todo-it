@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { useSetComplete } from "../../api/apiHooks/todoHooks";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -17,22 +18,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function TodoItem(todo) {
-    const [state, setState] = React.useState({
-        gilad: true,
-        jason: false,
-        antoine: false,
-    });
-
-    const handleChange = (event) => {
-        setState({
-            ...state,
-            [event.target.name]: event.target.checked,
-        });
-    };
-
-    const { gilad, jason, antoine } = state;
-    const error = [gilad, jason, antoine].filter((v) => v).length !== 2;
-
+    const setComplete = useSetComplete();
+    console.log(todo.props.isComplete);
     return (
         <div className="wrapper">
             <Box sx={{ flexGrow: 1 }}>
@@ -49,18 +36,22 @@ export default function TodoItem(todo) {
                                         <FormControlLabel
                                             control={
                                                 <Checkbox
-                                                    checked={gilad}
-                                                    onChange={handleChange}
+                                                    onChange={() => {
+                                                        setComplete.changeComplete(
+                                                            todo.props.id
+                                                        );
+                                                    }}
+                                                    defaultChecked={todo.props.isComplete}
+                                                    
                                                     name="gilad"
                                                 />
                                             }
-                                            label={todo.props.title}
+                                            label={<span className={"todo-is-complete-"+todo.props.isComplete}>{todo.props.title}</span>}
                                         />
                                     </FormGroup>
                                 </FormControl>
                                 <FormControl
                                     required
-                                    error={error}
                                     component="fieldset"
                                     sx={{ m: 3 }}
                                     variant="standard"

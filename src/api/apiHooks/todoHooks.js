@@ -40,19 +40,18 @@ export const useAddTodo = () => {
     const dispatch = useDispatch();
     const db = useDatabase();
     const groupId = useGetSelectedGroupId();
-    console.log(groupId);
 
     const addTodo = async (todoName) => {
         const todoService = new TodoDataService(db);
-        const todo = { 
-            title: todoName, 
-            description: '',
+        const todo = {
+            title: todoName,
+            description: "",
             isComplete: false,
             isFavorite: false,
             points: 0,
             timer: 0,
             groupId: groupId,
-            userId: '4221',    
+            userId: "4221",
         };
 
         const result = await todoService.add(todo);
@@ -62,8 +61,41 @@ export const useAddTodo = () => {
 
     return {
         state,
-        addTodo
-    }
+        addTodo,
+    };
+};
+
+export const useSetComplete = () => {
+    const db = useDatabase();
+    const state = useGetTodoList();
+    const dispatch = useDispatch();
+
+    const changeComplete = async (todoId) => {
+        let currentTodo = {};
+        if (state.length > 0) {
+            const todoState = state.map((todo) => {
+                if (todo.id === todoId) {
+                    currentTodo = todo;
+                }
+                return todo;
+            });
+            const isComplete = !currentTodo.isComplete;
+            todoState.map((todo, index) => {
+                if (todo.id === todoId) {
+                    todoState[index].isComplete = isComplete;
+                }
+                return todo;
+            });
+
+            const todoService = new TodoDataService(db, todoId);
+            await todoService.changeComplete(isComplete);
+            dispatch(setTodoList(todoState));
+        }
+    };
+
+    return {
+        changeComplete,
+    };
 };
 
 export const useGetTodoList = () => {

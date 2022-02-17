@@ -2,7 +2,7 @@ export const SET_TODO_LIST = "TODO/SET_TODO_LIST";
 export const SET_TODO = "TODO/SET_TODO"
 
 const initialState = {
-    todos: {},
+    todos: [],
 };
 
 export const todoReducer = (state = initialState, action) => {

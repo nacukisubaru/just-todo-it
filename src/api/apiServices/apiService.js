@@ -8,6 +8,7 @@ import {
     setDoc,
     query,
     where,
+    updateDoc,
 } from "firebase/firestore/lite";
 
 export default class DataService {
@@ -36,11 +37,16 @@ export default class DataService {
             ) {
                 return false;
             }
-            result = query(listRef, where(filter.field, filter.logic, filter.value));
+            result = query(
+                listRef,
+                where(filter.field, filter.logic, filter.value)
+            );
             result.docs = await getDocs(result);
         }
-  
-        result.docs.forEach((doc) => (arrayList.push({ ...doc.data(), id: doc.id })));
+
+        result.docs.forEach((doc) =>
+            arrayList.push({ ...doc.data(), id: doc.id })
+        );
         return arrayList;
     };
 
@@ -57,6 +63,12 @@ export default class DataService {
     update = async (updateData) => {
         const elementDoc = await this.getDoc();
         return await setDoc(elementDoc, updateData);
+    };
+
+    updateDocField = async (objFields) => {
+        const docRef = await this.getDoc();
+        console.log(docRef);
+        await updateDoc(docRef, objFields);
     };
 
     delete = async () => {
