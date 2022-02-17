@@ -8,15 +8,14 @@ import { getFirestore } from "firebase/firestore/lite";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyBv4FMo3BdFrOFUI2IZjcxVvlTU3T8934w",
-    authDomain: "just-todo-it-v2.firebaseapp.com",
-    projectId: "just-todo-it-v2",
-    storageBucket: "just-todo-it-v2.appspot.com",
-    messagingSenderId: "403660952649",
-    appId: "1:403660952649:web:25f7616bc0c66c8daedb98",
-    measurementId: "G-ZCZGZBLV4Y"
+    apiKey: "AIzaSyDkAyMnBOc9iH7SrnWlTwLw0vblCZFt3kY",
+    authDomain: "just-todo-it-v3.firebaseapp.com",
+    projectId: "just-todo-it-v3",
+    storageBucket: "just-todo-it-v3.appspot.com",
+    messagingSenderId: "722467945902",
+    appId: "1:722467945902:web:454b77e93c004a95ad9c3f",
+    measurementId: "G-EF2H58KFM9",
 };
-
 // Initialize Firebase
 export function connectDB() {
     return getFirestore(initializeApp(firebaseConfig));

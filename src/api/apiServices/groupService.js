@@ -1,6 +1,6 @@
 import DataService from "./apiService";
 
-const TABLE = 'groups';
+const TABLE = 'groupslist';
 
 export default class GroupService extends DataService {
     constructor(db, id=null) {
@@ -8,7 +8,4 @@ export default class GroupService extends DataService {
 		this.id = id
 	}
 
-    getGroupsList = () => {
-        
-    }
 }

@@ -7,19 +7,18 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import MailIcon from "@mui/icons-material/Mail";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MenuIcon from '@mui/icons-material/Menu';
 import { useGetGroupList } from "../../api/apiHooks/groupHooks";
+import MenuItemDrawer from "./MenuItemDrawer";
 
 export default function MenuDrawer() {
     const groups = useGetGroupList();
-
     return (
         <div className="wrapper">
             <Toolbar />
             <Divider />
             <List>
                 {["All mail", "Trash", "Spam"].map((text, index) => (
-                    <ListItem button key={text}>
+                    <ListItem button key={text} >
                         <ListItemIcon>
                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                         </ListItemIcon>
@@ -30,13 +29,8 @@ export default function MenuDrawer() {
             <Divider />
             <List>
                 {!!groups.length &&
-                    groups.map((group, index) => (
-                        <ListItem button key={group.id}>
-                            <ListItemIcon>
-                              <MenuIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={group.name} />
-                        </ListItem>
+                    groups.map((group) => (
+                      <MenuItemDrawer props={group}></MenuItemDrawer>
                     ))}
             </List>
         </div>
