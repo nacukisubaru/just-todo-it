@@ -9,6 +9,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { useAddTodo } from "../../api/apiHooks/todoHooks";
 import Button from "@mui/material/Button";
 import SaveIcon from "@mui/icons-material/Save";
+import { useChangeInputHandler } from "../../api/apiHooks/eventHandlerHooks";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,10 +21,11 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function CreateTodo() {
     const addTodoHook = useAddTodo();
+    const inputChange = useChangeInputHandler('');
 
     const submitHandler = (event) => {
         event.preventDefault();
-        addTodoHook.addTodo("my todo4221");
+        addTodoHook.addTodo(inputChange.state.addTodoField);
     };
 
     return (
@@ -45,6 +47,8 @@ export default function CreateTodo() {
                                             maxWidth: "100%",
                                             visibility: "none",
                                         }}
+                                        onChange={(event)=>{inputChange.setField(event)}}
+                                        name="addTodoField"
                                     />
                                 </FormControl>
                             </Box>

@@ -40,6 +40,7 @@ export const useAddTodo = () => {
     const dispatch = useDispatch();
     const db = useDatabase();
     const groupId = useGetSelectedGroupId();
+    console.log(groupId);
 
     const addTodo = async (todoName) => {
         const todoService = new TodoDataService(db);
@@ -53,7 +54,7 @@ export const useAddTodo = () => {
             groupId: groupId,
             userId: '4221',    
         };
-        
+
         const result = await todoService.add(todo);
         todo.id = result.id;
         dispatch(setTodo(todo));
