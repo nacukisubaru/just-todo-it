@@ -8,6 +8,10 @@ export const useGetGroupList = () => {
     return useSelector((state)=> state.groupManager.groups);
 }
 
+export const useGetSelectedGroupId = () => {
+    return useSelector((state)=> state.groupManager.selectedGroupId);    
+}
+
 // export const useSetGroupList = () => {
 //     const db = useDatabase();
 //     const dispatch = useDispatch();
