@@ -8,15 +8,16 @@ export default function TodoList() {
     const todos = useGetTodoList();
     const groupList = useGetGroupList();
     const todoList = useSetTodoListByGroup("");
+    const getList = todoList.getList;
 
     useEffect(()=>{
         if(groupList[0]) {
-            todoList.getList(groupList[0].id);
+            getList(groupList[0].id);
         }
-    }, [groupList])
+    }, [groupList, getList])
 
     return (
-        <div className="wrapper">
+        <div className="wrapper wrap-bottom">
             {!!todos.length && todos.map((todo) => <TodoItem props={todo}></TodoItem>)}
         </div>
     );

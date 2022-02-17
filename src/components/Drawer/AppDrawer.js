@@ -10,6 +10,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuDrawer from "./MenuDrawer";
 import TodoList from '../Todo/TodoList';
+import CreateTodo from '../Todo/CreateTodo';
 
 const drawerWidth = 240;
 
@@ -88,6 +89,7 @@ function AppDrawer(props) {
         <Toolbar />
         <Typography component={'span'} paragraph>
          <TodoList></TodoList>
+         <CreateTodo></CreateTodo>
         </Typography>
       </Box>
     </Box>

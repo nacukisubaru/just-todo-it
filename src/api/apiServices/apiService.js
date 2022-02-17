@@ -31,7 +31,7 @@ export default class DataService {
             result = await getDocs(listRef);
         } else {
             if (
-                (filter.length != 3 || !filter.hasOwnProperty("field"),
+                (filter.length !== 3 || !filter.hasOwnProperty("field"),
                 !filter.hasOwnProperty("logic"),
                 !filter.hasOwnProperty("value"))
             ) {

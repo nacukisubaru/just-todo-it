@@ -6,9 +6,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useSetTodoListByGroup } from "../../api/apiHooks/todoHooks";
 
 export default function MenuItemDrawer(group) {
-    const setTodoList = useSetTodoListByGroup("");
+    const todoList = useSetTodoListByGroup("");
+
     return (
-        <ListItem button key={group.props.id} onClick={()=>{setTodoList.getList(group.props.id)}}>
+        <ListItem button key={group.props.id} onClick={()=>{todoList.getList(group.props.id)}}>
             <ListItemIcon>
                 <MenuIcon />
             </ListItemIcon>
