@@ -26,7 +26,6 @@ export default class DataService {
         let arrayList = [];
         let result = {};
         const listRef = collection(this.db, this.table);
-        console.log(filter);
         if (filter == null) {
             result = await getDocs(listRef);
         } else {

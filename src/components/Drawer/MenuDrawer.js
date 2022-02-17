@@ -18,7 +18,7 @@ export default function MenuDrawer() {
             <Divider />
             <List>
                 {["All mail", "Trash", "Spam"].map((text, index) => (
-                    <ListItem button key={text} >
+                    <ListItem button key={index} >
                         <ListItemIcon>
                             {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                         </ListItemIcon>
@@ -30,7 +30,7 @@ export default function MenuDrawer() {
             <List>
                 {!!groups.length &&
                     groups.map((group) => (
-                      <MenuItemDrawer props={group}></MenuItemDrawer>
+                      <MenuItemDrawer props={group} key={group.id}></MenuItemDrawer>
                     ))}
             </List>
         </div>

@@ -18,7 +18,7 @@ export default function TodoList() {
 
     return (
         <div className="wrapper wrap-bottom">
-            {!!todos.length && todos.map((todo) => <TodoItem props={todo}></TodoItem>)}
+            {!!todos.length && todos.map((todo) => <TodoItem props={todo} key={todo.id}></TodoItem>)}
         </div>
     );
 }
