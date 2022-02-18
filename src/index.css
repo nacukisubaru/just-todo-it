@@ -19,3 +19,11 @@ code {
 .todo-is-complete-true {
   text-decoration: line-through;
 }
+
+.display-input-group-false {
+  display: block;
+}
+
+.display-input-group-true {
+  display: none;
+}

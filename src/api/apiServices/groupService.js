@@ -1,11 +1,14 @@
 import DataService from "./apiService";
 
-const TABLE = 'groupslist';
+const TABLE = "groupslist";
 
 export default class GroupService extends DataService {
-    constructor(db, id=null) {
-		super(db, TABLE)
-		this.id = id
-	}
+    constructor(db, id = null) {
+        super(db, TABLE);
+        this.id = id;
+    }
 
+    addGroup = async (name) => {
+        return await this.add({ name });
+    };
 }
