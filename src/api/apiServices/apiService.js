@@ -67,7 +67,6 @@ export default class DataService {
 
     updateDocField = async (objFields) => {
         const docRef = await this.getDoc();
-        console.log(docRef);
         await updateDoc(docRef, objFields);
     };
 

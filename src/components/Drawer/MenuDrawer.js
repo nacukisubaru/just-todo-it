@@ -28,14 +28,13 @@ export default function MenuDrawer() {
     const group = useAddGroup();
     const importantGroup = useCreateImportantGroup();
     const arrayPresetGroups = [{ id: importantGroup.id, name: "Важное", code: "IMPORTANT" }];
-    console.log(importantGroup.id);
+
     let groupsList = [];
     !!groups.length && groups.map((group) => {
         if(group.id !== importantGroup.id) {
             groupsList.push(group);
         }
     });
-    console.log(groupsList);
 
     const handlerClickAddGroup = () => {
         dispatch(toggleBtnAddGroup(!state));

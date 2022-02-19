@@ -23,11 +23,20 @@ export default class TodoDataService extends DataService {
     getListByGroup = async (groupId) => {
         const filter = { field: "groupId", logic: "==", value: groupId };
         const result = await this.getList(filter);
-		return result;
+        return result;
     };
 
-    changeComplete = async(isComplete) => {
-        console.log({isComplete})
-        return await this.updateDocField({isComplete})
+    getListByImportant = async () => {
+        const filter = {field: "isImportant", logic: "==", value: true};
+        const result = await this.getList(filter);
+        return result;
     }
+
+    changeComplete = async (isComplete) => {
+        return await this.updateDocField({ isComplete });
+    };
+
+    changeImportant = async (isImportant) => {
+        return await this.updateDocField({ isImportant });
+    };
 }

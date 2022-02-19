@@ -9,6 +9,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useSetComplete } from "../../api/apiHooks/todoHooks";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { useChangeTodoImportant } from "../../api/apiHooks/todoHooks";
+import StarIcon from '@mui/icons-material/Star';
+import { useFilterTodoListByImportant } from "../../api/apiHooks/todoHooks";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,7 +23,24 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function TodoItem(todo) {
     const setComplete = useSetComplete();
-    console.log(todo.props.isComplete);
+    const todoImportant = useChangeTodoImportant();
+    const filterByImportant = useFilterTodoListByImportant();
+
+    const styleEnable =  {marginTop:"18px", display:"block"};
+    const styleDisable = {marginTop:"18px", display:"none"};
+
+    let starDisableStyle = styleEnable;
+    let starEnableStyle = styleDisable;
+    if(todo.props.isImportant) {
+        starDisableStyle = styleDisable;
+        starEnableStyle =  styleEnable ;
+    }
+
+    const handlerClickImportantOff = () => {
+        todoImportant.updateImportant(todo.props.id);
+        filterByImportant.filter();
+    }
+
     return (
         <div className="wrapper">
             <Box sx={{ flexGrow: 1 }}>
@@ -83,10 +103,12 @@ export default function TodoItem(todo) {
                                         }}
                                     >
                                         <StarBorderIcon
-                                            style={{
-                                                marginTop: "18px",
-                                            }}
+                                            style={starDisableStyle}
+                                            onClick={()=>{todoImportant.updateImportant(todo.props.id)}}
                                         />
+                                        <StarIcon style={starEnableStyle}  onClick={handlerClickImportantOff}></StarIcon>
+
+
                                     </Grid>
                                 </Grid>
                             </Box>

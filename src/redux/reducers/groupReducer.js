@@ -5,7 +5,7 @@ export const SET_IMPORTANT_GROUP = "GROUP/SET_IMPORTANT_GROUP";
 
 const initialState = {
     groups: {},
-    selectedGroupId: {},
+    selectedGroupId: null,
     importantGroupId: null
 };
 
