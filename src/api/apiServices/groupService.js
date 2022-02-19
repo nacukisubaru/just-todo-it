@@ -11,4 +11,12 @@ export default class GroupService extends DataService {
     addGroup = async (name) => {
         return await this.add({ name });
     };
+
+    getImportantGroupId = async () => {
+    	const group = await this.getList({ field: "code", logic: "==", value: "IMPORTANT" });
+		if(Array.isArray(group) && group.length > 0) {
+			return group[0].id;
+		}
+		return false;
+    };
 }

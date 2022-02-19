@@ -18,6 +18,7 @@ import FormControl from "@mui/material/FormControl";
 import SaveIcon from "@mui/icons-material/Save";
 import { useChangeInputHandler } from "../../api/apiHooks/eventHandlerHooks";
 import { useAddGroup } from "../../api/apiHooks/groupHooks";
+import { useCreateImportantGroup } from "../../api/apiHooks/groupHooks";
 
 export default function MenuDrawer() {
     const groups = useGetGroupList();
@@ -25,18 +26,28 @@ export default function MenuDrawer() {
     const dispatch = useDispatch();
     const inputHandler = useChangeInputHandler();
     const group = useAddGroup();
-    
+    const importantGroup = useCreateImportantGroup();
+    const arrayPresetGroups = [{ id: importantGroup.id, name: "Важное", code: "IMPORTANT" }];
+    console.log(importantGroup.id);
+    let groupsList = [];
+    !!groups.length && groups.map((group) => {
+        if(group.id !== importantGroup.id) {
+            groupsList.push(group);
+        }
+    });
+    console.log(groupsList);
+
     const handlerClickAddGroup = () => {
         dispatch(toggleBtnAddGroup(!state));
     };
 
     const submitHandler = (event) => {
         event.preventDefault();
-        if(inputHandler.state.groupNameField) {
+        if (inputHandler.state.groupNameField) {
             group.addGroup(inputHandler.state.groupNameField);
             dispatch(toggleBtnAddGroup(!state));
         }
-    }
+    };
 
     let style = {
         display: "block",
@@ -63,19 +74,17 @@ export default function MenuDrawer() {
             <Toolbar />
             <Divider />
             <List>
-                {["All mail", "Trash", "Spam"].map((text, index) => (
-                    <ListItem button key={index}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
+                {arrayPresetGroups.map((group) => (
+                     <MenuItemDrawer
+                     props={group}
+                     key={group.id}
+                 ></MenuItemDrawer>
                 ))}
             </List>
             <Divider />
             <List>
-                {!!groups.length &&
-                    groups.map((group) => (
+                {!!groupsList.length &&
+                    groupsList.map((group) => (
                         <MenuItemDrawer
                             props={group}
                             key={group.id}
@@ -99,9 +108,17 @@ export default function MenuDrawer() {
                             visibility: "none",
                         }}
                         name="groupNameField"
-                        onChange={(event)=>{inputHandler.setField(event)}}
+                        onChange={(event) => {
+                            inputHandler.setField(event);
+                        }}
                     />
-                    <Button variant="outlined" startIcon={<SaveIcon />} type="submit">save</Button>
+                    <Button
+                        variant="outlined"
+                        startIcon={<SaveIcon />}
+                        type="submit"
+                    >
+                        save
+                    </Button>
                 </FormControl>
             </form>
         </div>

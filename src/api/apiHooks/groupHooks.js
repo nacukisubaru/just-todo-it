@@ -1,11 +1,9 @@
+import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GroupService from "../apiServices/groupService";
 import { setGroup } from "../../redux/actions/groupAction";
 import { useDatabase } from ".";
-// import GroupService from "../apiServices/groupService";
-// import { useDatabase } from "./index";
-// import { useDispatch } from "react-redux";
-// import { setGroupsList } from "../../redux/actions/groupAction";
+import { setImportantGroupId } from "../../redux/actions/groupAction";
 
 export const useGetGroupList = () => {
     return useSelector((state) => state.groupManager.groups);
@@ -13,6 +11,10 @@ export const useGetGroupList = () => {
 
 export const useGetSelectedGroupId = () => {
     return useSelector((state) => state.groupManager.selectedGroupId);
+};
+
+export const useGetGroupManager = () => {
+    return useSelector((state) => state.groupManager);
 };
 
 export const useAddGroup = () => {
@@ -24,7 +26,7 @@ export const useAddGroup = () => {
         if (name.length > 0) {
             const groupService = new GroupService(db);
             const result = await groupService.addGroup(name);
-            dispatch(setGroup({name, id:result.id}));
+            dispatch(setGroup({ name, id: result.id }));
             return result;
         }
         return false;
@@ -32,7 +34,35 @@ export const useAddGroup = () => {
 
     return {
         state,
-        addGroup
+        addGroup,
+    };
+};
+
+export const useCreateImportantGroup = () => {
+    const db = useDatabase();
+    const dispatch = useDispatch();
+
+    const createGroup = async () => {
+        const groupService = new GroupService(db);
+        let importantGroupId = await groupService.getImportantGroupId();
+        if (!importantGroupId) {
+            importantGroupId = await groupService.add({
+                name: "Важное",
+                code: "IMPORTANT",
+            });
+        }
+        dispatch(setImportantGroupId(importantGroupId));
+    };
+
+    useEffect(() => {
+        createGroup();
+    }, []);
+
+    const id = useGetGroupManager().importantGroupId;
+
+    return {
+        id,
+        createGroup,
     };
 };
 

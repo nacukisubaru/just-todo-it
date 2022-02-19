@@ -1,4 +1,9 @@
-import { SET_GROUPS, SELECT_GROUP, SET_GROUP } from "../reducers/groupReducer";
+import {
+    SET_GROUPS,
+    SELECT_GROUP,
+    SET_GROUP,
+    SET_IMPORTANT_GROUP,
+} from "../reducers/groupReducer";
 import GroupService from "../../api/apiServices/groupService";
 
 export function setGroupsList(db) {
@@ -15,4 +20,8 @@ export function setGroup(group) {
 
 export function selectGroupId(groupId) {
     return { type: SELECT_GROUP, payload: groupId };
+}
+
+export function setImportantGroupId(groupId) {
+    return { type: SET_IMPORTANT_GROUP, payload: groupId };
 }

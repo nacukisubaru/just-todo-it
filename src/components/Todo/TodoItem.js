@@ -8,6 +8,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useSetComplete } from "../../api/apiHooks/todoHooks";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -26,36 +27,68 @@ export default function TodoItem(todo) {
                 <Grid container spacing={1}>
                     <Grid item xs={13}>
                         <Item>
-                            <Box sx={{ display: "flex" }}>
-                                <FormControl
-                                    sx={{ m: 1 }}
-                                    component="fieldset"
-                                    variant="standard"
-                                >
-                                    <FormGroup>
-                                        <FormControlLabel
-                                            control={
-                                                <Checkbox
-                                                    onChange={() => {
-                                                        setComplete.changeComplete(
-                                                            todo.props.id
-                                                        );
-                                                    }}
-                                                    defaultChecked={todo.props.isComplete}
-                                                    
-                                                    name="gilad"
+                            <Box sx={{ display: "flex", flexGrow: 1 }}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={8} md={8}>
+                                        <FormControl
+                                            sx={{ m: 1 }}
+                                            component="fieldset"
+                                            variant="standard"
+                                        >
+                                            <FormGroup>
+                                                <FormControlLabel
+                                                    control={
+                                                        <Checkbox
+                                                            onChange={() => {
+                                                                setComplete.changeComplete(
+                                                                    todo.props
+                                                                        .id
+                                                                );
+                                                            }}
+                                                            defaultChecked={
+                                                                todo.props
+                                                                    .isComplete
+                                                            }
+                                                            name="gilad"
+                                                        />
+                                                    }
+                                                    label={
+                                                        <span
+                                                            className={
+                                                                "todo-is-complete-" +
+                                                                todo.props
+                                                                    .isComplete
+                                                            }
+                                                        >
+                                                            {todo.props.title}
+                                                        </span>
+                                                    }
                                                 />
-                                            }
-                                            label={<span className={"todo-is-complete-"+todo.props.isComplete}>{todo.props.title}</span>}
+                                            </FormGroup>
+                                        </FormControl>
+                                        <FormControl
+                                            required
+                                            component="fieldset"
+                                            sx={{ m: 3 }}
+                                            variant="standard"
+                                        ></FormControl>
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={6}
+                                        md={4}
+                                        style={{
+                                            display: "flex",
+                                            justifyContent: "right",
+                                        }}
+                                    >
+                                        <StarBorderIcon
+                                            style={{
+                                                marginTop: "18px",
+                                            }}
                                         />
-                                    </FormGroup>
-                                </FormControl>
-                                <FormControl
-                                    required
-                                    component="fieldset"
-                                    sx={{ m: 3 }}
-                                    variant="standard"
-                                ></FormControl>
+                                    </Grid>
+                                </Grid>
                             </Box>
                         </Item>
                     </Grid>

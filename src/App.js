@@ -11,6 +11,7 @@ function App() {
 
     useEffect(() => {
         dispatch(setGroupsList(db));
+
     }, [db, dispatch]);
 
     return <AppDrawer></AppDrawer>;

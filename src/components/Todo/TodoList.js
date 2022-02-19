@@ -11,8 +11,8 @@ export default function TodoList() {
     const getList = todoList.getList;
 
     useEffect(()=>{
-        if(groupList[0]) {
-            getList(groupList[0].id);
+        if(groupList[1]) {
+            getList(groupList[1].id);
         }
     }, [groupList, getList])
 
