@@ -4,6 +4,6 @@ export function toggleBtnAddGroup(isShow) {
     return { type: SHOW_BTN_ADD_GROUP, payload: isShow };
 }
 
-export function toggleGroupMenu(isOpen) {
-    return { type: OPEN_GROUP_MENU, payload: isOpen };
+export function toggleGroupMenu(stateGroupMenu) {
+    return { type: OPEN_GROUP_MENU, payload: stateGroupMenu };
 }

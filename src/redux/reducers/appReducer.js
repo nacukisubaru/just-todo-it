@@ -3,7 +3,7 @@ export const OPEN_GROUP_MENU = "OPEN/OPEN_GROUP_MENU";
 
 const initialState = {
     showBtnAddGroup: true,
-    openGroupMenu: false
+    groupMenu: {isOpen:false, groupId: ''}
 };
 
 export const appReducer = (state = initialState, action) => {
@@ -11,7 +11,7 @@ export const appReducer = (state = initialState, action) => {
         case SHOW_BTN_ADD_GROUP:
             return { ...state, showBtnAddGroup: action.payload };
         case OPEN_GROUP_MENU:
-            return { ...state, openGroupMenu: action.payload };
+            return { ...state, groupMenu: action.payload };
         default:
             return state;
     }

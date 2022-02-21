@@ -13,10 +13,9 @@ import { useGetSelectedGroupId } from "../../api/apiHooks/groupHooks";
 export default function MenuActionsDrawer(group) {
     const currentGroup = group.group.props;
     const deleteGroup = useDeleteGroup();
-    const stateMenu = useSelector((state)=> state.appManager.openGroupMenu);
-    const getSelectedGroupId = useGetSelectedGroupId();
-
-    return stateMenu === true && currentGroup.id == getSelectedGroupId ? (
+    const stateMenu = useSelector((state)=> state.appManager.groupMenu);
+    
+    return stateMenu.isOpen === true && currentGroup.id == stateMenu.groupId ? (
         <Paper  sx={{ width: 320, maxWidth: "50%" }}>
             <MenuList>
                 <MenuItem>

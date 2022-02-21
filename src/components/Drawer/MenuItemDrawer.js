@@ -15,23 +15,17 @@ import { selectGroupId } from "../../redux/actions/groupAction";
 export default function MenuItemDrawer(group) {
     const todoList = useSetTodoListByGroup("");
     const dispatch = useDispatch();
-    const stateMenu = useSelector((state) => state.appManager.openGroupMenu);
+    const stateMenu = useSelector((state) => state.appManager.groupMenu);
     const handlerClickGroupMenu = () => {
-        const isOpen = !stateMenu;
-        dispatch(toggleGroupMenu(isOpen));
+        const isOpen = !stateMenu.isOpen;
+        dispatch(toggleGroupMenu({ isOpen, groupId: group.props.id }));
         dispatch(selectGroupId(group.id));
     };
 
     return (
         <Grid container spacing={1}>
-            <Grid xs={15}> 
-                <ListItem
-                    button
-                    key={group.props.id}
-                    onClick={() => {
-                        todoList.getList(group.props.id);
-                    }}
-                >
+            <Grid xs={15}>
+                <ListItem button key={group.props.id}>
                     <ListItemIcon>
                         {group.props.code == "IMPORTANT" ? (
                             <InboxIcon />
@@ -40,11 +34,16 @@ export default function MenuItemDrawer(group) {
                                 <MenuIcon />
                             </IconButton>
                         )}
-                        <ListItemText primary={group.props.name} />
                     </ListItemIcon>
+                    <ListItemText
+                        onClick={() => {
+                            todoList.getList(group.props.id);
+                        }}
+                        primary={group.props.name}
+                    />
                 </ListItem>
             </Grid>
-            <Grid  style={{marginLeft:'25px'}}>
+            <Grid style={{ marginLeft: "25px" }}>
                 <MenuActionsDrawer group={group}></MenuActionsDrawer>
             </Grid>
         </Grid>
