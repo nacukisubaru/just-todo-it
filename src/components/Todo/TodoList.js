@@ -3,6 +3,7 @@ import { useGetTodoList } from "../../api/apiHooks/todoHooks";
 import { useGetGroupList } from "../../api/apiHooks/groupHooks";
 import { useSetTodoListByGroup } from "../../api/apiHooks/todoHooks";
 import TodoItem from "./TodoItem";
+import TodoFilter from "./TodoFilter";
 
 export default function TodoList() {
     const todos = useGetTodoList();
@@ -17,7 +18,8 @@ export default function TodoList() {
     }, [groupList, getList])
 
     return (
-        <div className="wrapper wrap-bottom">
+        <div className="wrapper wrap-bottom" >
+             <TodoFilter></TodoFilter>
             {!!todos.length && todos.map((todo) => <TodoItem props={todo} key={todo.id}></TodoItem>)}
         </div>
     );

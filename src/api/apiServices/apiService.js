@@ -30,17 +30,29 @@ export default class DataService {
         if (filter == null) {
             result = await getDocs(listRef);
         } else {
-            if (
-                (filter.length !== 3 || !filter.hasOwnProperty("field"),
-                !filter.hasOwnProperty("logic"),
-                !filter.hasOwnProperty("value"))
-            ) {
-                return false;
+            if (Array.isArray(filter) && filter.length > 0) {
+                let arFilter = [];
+                let executeQuery = true;
+                filter.map((obj) => {
+                    if (!this.checkFieldsInFilter(obj)) {
+                        executeQuery = false;
+                    } else {
+                        arFilter.push(where(obj.field, obj.logic, obj.value));
+                    }
+                });
+                if (!executeQuery) {
+                    return false;
+                }
+                result = query(listRef, ...arFilter);
+            } else {
+                if (!this.checkFieldsInFilter(filter)) {
+                    return false;
+                }
+                result = query(
+                    listRef,
+                    where(filter.field, filter.logic, filter.value)
+                );
             }
-            result = query(
-                listRef,
-                where(filter.field, filter.logic, filter.value)
-            );
             result.docs = await getDocs(result);
         }
 
@@ -48,6 +60,17 @@ export default class DataService {
             arrayList.push({ ...doc.data(), id: doc.id })
         );
         return arrayList;
+    };
+
+    checkFieldsInFilter = (obj) => {
+        if (
+            (obj.length !== 3 || !obj.hasOwnProperty("field"),
+            !obj.hasOwnProperty("logic"),
+            !obj.hasOwnProperty("value"))
+        ) {
+            return false;
+        }
+        return true;
     };
 
     getDoc = async () => {

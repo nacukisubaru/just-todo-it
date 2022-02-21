@@ -12,3 +12,7 @@ export const useConnect = () => {
 export const useDatabase = () => {
     return useSelector((state)=> state.apiManager.db);
 }
+
+export const useGetTabFilterCode = () => {
+    return useSelector((state)=> state.appManager.tabFilterCode);
+} 

@@ -11,6 +11,7 @@ import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleGroupMenu } from "../../redux/actions/appAction";
 import { selectGroupId } from "../../redux/actions/groupAction";
+import { useGetTabFilterCode } from "../../api/apiHooks";
 
 export default function MenuItemDrawer(group) {
     const todoList = useSetTodoListByGroup("");
@@ -21,6 +22,8 @@ export default function MenuItemDrawer(group) {
         dispatch(toggleGroupMenu({ isOpen, groupId: group.props.id }));
         dispatch(selectGroupId(group.id));
     };
+
+    const tabFilterCode = useGetTabFilterCode();
 
     return (
         <Grid container spacing={1}>
@@ -37,7 +40,7 @@ export default function MenuItemDrawer(group) {
                     </ListItemIcon>
                     <ListItemText
                         onClick={() => {
-                            todoList.getList(group.props.id);
+                            todoList.getList(group.props.id, tabFilterCode);
                         }}
                         primary={group.props.name}
                     />
