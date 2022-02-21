@@ -10,6 +10,7 @@ import MenuActionsDrawer from "./MenuActionsDrawer";
 import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleGroupMenu } from "../../redux/actions/appAction";
+import { selectGroupId } from "../../redux/actions/groupAction";
 
 export default function MenuItemDrawer(group) {
     const todoList = useSetTodoListByGroup("");
@@ -18,6 +19,7 @@ export default function MenuItemDrawer(group) {
     const handlerClickGroupMenu = () => {
         const isOpen = !stateMenu;
         dispatch(toggleGroupMenu(isOpen));
+        dispatch(selectGroupId(group.id));
     };
 
     return (
