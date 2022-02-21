@@ -8,13 +8,11 @@ import { useSetTodoListByGroup } from "../../api/apiHooks/todoHooks";
 import IconButton from "@mui/material/IconButton";
 import MenuActionsDrawer from "./MenuActionsDrawer";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleGroupMenu } from "../../redux/actions/appAction";
 
 export default function MenuItemDrawer(group) {
     const todoList = useSetTodoListByGroup("");
-
     const dispatch = useDispatch();
     const stateMenu = useSelector((state) => state.appManager.openGroupMenu);
     const handlerClickGroupMenu = () => {
@@ -23,34 +21,30 @@ export default function MenuItemDrawer(group) {
     };
 
     return (
-        <ListItem
-            button
-            key={group.props.id}
-            onClick={() => {
-                todoList.getList(group.props.id);
-            }}
-        >
-            <ListItemIcon>
-                <Grid container spacing={1}>
-                    <Grid style={{ marginRight: "12px" }}>
+        <Grid container spacing={1}>
+            <Grid xs={15}> 
+                <ListItem
+                    button
+                    key={group.props.id}
+                    onClick={() => {
+                        todoList.getList(group.props.id);
+                    }}
+                >
+                    <ListItemIcon>
                         {group.props.code == "IMPORTANT" ? (
                             <InboxIcon />
                         ) : (
-                            <IconButton
-                                onClick={handlerClickGroupMenu}
-                            >
+                            <IconButton onClick={handlerClickGroupMenu}>
                                 <MenuIcon />
                             </IconButton>
                         )}
-                    </Grid>
-                    <Grid xs={4}>
                         <ListItemText primary={group.props.name} />
-                    </Grid>
-                    <Grid>
-                        <MenuActionsDrawer group={group}></MenuActionsDrawer>
-                    </Grid>
-                </Grid>
-            </ListItemIcon>
-        </ListItem>
+                    </ListItemIcon>
+                </ListItem>
+            </Grid>
+            <Grid  style={{marginLeft:'25px'}}>
+                <MenuActionsDrawer group={group}></MenuActionsDrawer>
+            </Grid>
+        </Grid>
     );
 }
