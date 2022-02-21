@@ -125,7 +125,7 @@ export const useChangeTodoImportant = () => {
             }
             return todo;
         });
-    
+
         const todoService = new TodoDataService(db, todoId);
         todoService.changeImportant(isImportant);
 
@@ -146,7 +146,10 @@ export const useFilterTodoListByImportant = () => {
     let todoList = [];
 
     const filter = () => {
-        if (groupManager.importantGroupId !== null && groupManager.selectedGroupId == groupManager.importantGroupId) {
+        if (
+            groupManager.importantGroupId !== null &&
+            groupManager.selectedGroupId == groupManager.importantGroupId
+        ) {
             todos.map((todo) => {
                 if (todo.isImportant === true) {
                     todoList.push(todo);
@@ -159,6 +162,26 @@ export const useFilterTodoListByImportant = () => {
     return {
         filter,
     };
+};
+
+export const useDeleteTodo = () => {
+    const db = useDatabase();
+    const dispatch = useDispatch();
+    const todos = useGetTodoList();
+    let todoList = [];
+
+    const deleteTodo = (todoId) => {
+        const todoService = new TodoDataService(db, todoId);
+        todoService.delete();
+        todos.map((todo) => {
+            if (todo.id != todoId) {
+                todoList.push(todo);
+            }
+        });
+        dispatch(setTodoList(todoList));
+    };
+
+    return {deleteTodo};
 };
 
 export const useGetTodoList = () => {
