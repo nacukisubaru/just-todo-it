@@ -4,14 +4,9 @@ import {
     SET_GROUP,
     SET_IMPORTANT_GROUP,
 } from "../reducers/groupReducer";
-import GroupService from "../../api/apiServices/groupService";
 
-export function setGroupsList(db) {
-    return async (dispatch) => {
-        const groupService = new GroupService(db);
-        const groupList = await groupService.getList();
-        dispatch({ type: SET_GROUPS, payload: groupList });
-    };
+export function setGroupsList(groupsList) {
+   return { type: SET_GROUPS, payload: groupsList };
 }
 
 export function setGroup(group) {

@@ -27,10 +27,10 @@ export default class TodoDataService extends DataService {
     };
 
     getListByImportant = async () => {
-        const filter = {field: "isImportant", logic: "==", value: true};
+        const filter = { field: "isImportant", logic: "==", value: true };
         const result = await this.getList(filter);
         return result;
-    }
+    };
 
     changeComplete = async (isComplete) => {
         return await this.updateDocField({ isComplete });
@@ -38,5 +38,17 @@ export default class TodoDataService extends DataService {
 
     changeImportant = async (isImportant) => {
         return await this.updateDocField({ isImportant });
+    };
+
+    deleteByGroup = async (groupId) => {
+        if(groupId && groupId.length > 0) {
+            const todoList = await this.getListByGroup(groupId);
+            todoList.map((todo) => {
+                const todoService = new TodoDataService(this.db, todo.id);
+                todoService.deleteTodo();
+            });
+            const res = await this.getListByGroup(groupId)
+            console.log(res);
+        }
     };
 }

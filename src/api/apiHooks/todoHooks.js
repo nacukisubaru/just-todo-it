@@ -170,7 +170,7 @@ export const useDeleteTodo = () => {
     const todos = useGetTodoList();
     let todoList = [];
 
-    const deleteTodo = (todoId) => {
+    const remove = (todoId) => {
         const todoService = new TodoDataService(db, todoId);
         todoService.delete();
         todos.map((todo) => {
@@ -181,8 +181,9 @@ export const useDeleteTodo = () => {
         dispatch(setTodoList(todoList));
     };
 
-    return {deleteTodo};
+    return {remove};
 };
+
 
 export const useGetTodoList = () => {
     return useSelector((state) => state.todoManager.todos);

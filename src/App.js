@@ -1,18 +1,13 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import AppDrawer from "./components/Drawer/AppDrawer";
 import { useConnect } from "./api/apiHooks/index";
-import { useDispatch } from "react-redux";
-import { setGroupsList } from "./redux/actions/groupAction";
+
+import { useSetGroupsList } from "./api/apiHooks/groupHooks";
 
 function App() {
-    const dispatch = useDispatch();
-    const db = useConnect();
-
-    useEffect(() => {
-        dispatch(setGroupsList(db));
-
-    }, [db, dispatch]);
+    useConnect();
+    useSetGroupsList();
 
     return <AppDrawer></AppDrawer>;
 }

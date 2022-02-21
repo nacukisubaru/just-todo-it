@@ -1,4 +1,5 @@
 import DataService from "./apiService";
+import TodoDataService from "./todoService";
 
 const TABLE = "groupslist";
 
@@ -19,4 +20,12 @@ export default class GroupService extends DataService {
 		}
 		return false;
     };
+
+    deleteCompletly = async () => {
+        if(this.id != null) {
+            const todoService = new TodoDataService(this.db);
+            await todoService.deleteByGroup(this.id);
+            await this.delete();
+        }
+    }
 }

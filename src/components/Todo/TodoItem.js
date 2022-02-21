@@ -28,7 +28,7 @@ export default function TodoItem(todo) {
     const setComplete = useSetComplete();
     const todoImportant = useChangeTodoImportant();
     const filterByImportant = useFilterTodoListByImportant();
-    const removeTodo = useDeleteTodo();
+    const deleteTodo = useDeleteTodo();
 
     const styleEnable = { marginTop: "18px", display: "block" };
     const styleDisable = { marginTop: "18px", display: "none" };
@@ -111,7 +111,7 @@ export default function TodoItem(todo) {
                                             type="submit"
                                             size="medium"
                                             style={{ marginTop: "11px"}}
-                                            onClick={()=>{removeTodo.deleteTodo(todo.props.id)}}
+                                            onClick={()=>{deleteTodo.remove(todo.props.id)}}
                                         >
                                             <DeleteIcon fontSize="inherit" />
                                         </IconButton>

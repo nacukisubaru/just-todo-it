@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -28,7 +28,7 @@ export default function MenuDrawer() {
     const group = useAddGroup();
     const importantGroup = useCreateImportantGroup();
     const arrayPresetGroups = [{ id: importantGroup.id, name: "Важное", code: "IMPORTANT" }];
-
+    
     let groupsList = [];
     !!groups.length && groups.map((group) => {
         if(group.id !== importantGroup.id) {

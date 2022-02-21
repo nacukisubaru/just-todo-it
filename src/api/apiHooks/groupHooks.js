@@ -4,6 +4,7 @@ import GroupService from "../apiServices/groupService";
 import { setGroup } from "../../redux/actions/groupAction";
 import { useDatabase } from ".";
 import { setImportantGroupId } from "../../redux/actions/groupAction";
+import { setGroupsList } from "../../redux/actions/groupAction";
 
 export const useGetGroupList = () => {
     return useSelector((state) => state.groupManager.groups);
@@ -66,19 +67,41 @@ export const useCreateImportantGroup = () => {
     };
 };
 
+export const useDeleteGroup = () => {
+    const db = useDatabase();
+    const dispatch = useDispatch();
+    const groups = useGetGroupList();
+    let newGroups = [];
 
-// export const useSetGroupList = () => {
-//     const db = useDatabase();
-//     const dispatch = useDispatch();
-//     const getGroupList = useGetGroupList();
+    const remove = async (groupId) => {
+        const groupService = new GroupService(db, groupId);
+        await groupService.deleteCompletly();
+        groups.map((group)=>{
+            if(group.id !== groupId) {
+                newGroups.push(group);
+            }
+        })
+        dispatch(setGroupsList(newGroups));
+    };
 
-//     async function setGroupList () {
-//         const groupService = new GroupService(db);
-//         const groupList = await groupService.getList();
-//         dispatch(setGroupsList(groupList));
-//     }
+    return {remove};
+};
 
-//     setGroupList();
+export const useSetGroupsList = () => {
+    const db = useDatabase();
+    const dispatch = useDispatch();
+    const getGroupList = useGetGroupList();
 
-//     return  useGetGroupList();
-// }
+    async function set() {
+        const groupService = new GroupService(db);
+        const groupList = await groupService.getList();
+        
+        dispatch(setGroupsList(groupList));
+    }
+
+    useEffect(() => {
+        set();
+    }, []);
+
+    return { getGroupList, set };
+};
