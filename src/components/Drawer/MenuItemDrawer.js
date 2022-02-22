@@ -20,7 +20,7 @@ export default function MenuItemDrawer(group) {
     const handlerClickGroupMenu = () => {
         const isOpen = !stateMenu.isOpen;
         dispatch(toggleGroupMenu({ isOpen, groupId: group.props.id }));
-        dispatch(selectGroupId(group.id));
+        //dispatch(selectGroupId(group.id));
     };
 
     const tabFilterCode = useGetTabFilterCode();
@@ -42,6 +42,7 @@ export default function MenuItemDrawer(group) {
                         onClick={() => {
                             todoList.getList(group.props.id, tabFilterCode);
                         }}
+                        style={{padding:'10px'}}
                         primary={group.props.name}
                     />
                 </ListItem>

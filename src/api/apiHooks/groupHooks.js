@@ -18,6 +18,14 @@ export const useGetGroupManager = () => {
     return useSelector((state) => state.groupManager);
 };
 
+export const useCheckEqualsBetweenImportantGroupAndSelectedGroupId = () => { 
+    const groupManager = useGetGroupManager();
+    if(groupManager.importantGroupId === groupManager.selectedGroupId) {
+        return true;
+    }
+    return false;
+}
+
 export const useAddGroup = () => {
     const state = useGetGroupList();
     const db = useDatabase();

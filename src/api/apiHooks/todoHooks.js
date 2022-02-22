@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import TodoDataService from "../apiServices/todoService";
-import { useDatabase } from ".";
+import { useDatabase, useGetTabFilterCode } from ".";
 import { setTodoList } from "../../redux/actions/todoAction";
 import { useSelector, useDispatch } from "react-redux";
 import { selectGroupId } from "../../redux/actions/groupAction";
@@ -21,7 +21,7 @@ export const useSetTodoListByGroup = (groupId) => {
             let groupList = [];
             const todoService = new TodoDataService(db);
             if (importantGroupId === groupId) {
-                groupList = await todoService.getListByImportant();
+                groupList = await todoService.getListByCompleteAndImportant(isComplete);
             } else {
                 if(tabFilterCode == "important") {
                     groupList = await todoService.getListByImportantAndGroup(groupId);
@@ -96,16 +96,16 @@ export const useSetComplete = () => {
                 return todo;
             });
             const isComplete = !currentTodo.isComplete;
-            todoState.map((todo, index) => {
-                if (todo.id === todoId) {
-                    todoState[index].isComplete = isComplete;
+            let newTodoState = [];
+            todoState.map((todo) => {
+                if (todo.id !== todoId) {
+                    newTodoState.push(todo);
                 }
-                return todo;
             });
 
             const todoService = new TodoDataService(db, todoId);
             await todoService.changeComplete(isComplete);
-            dispatch(setTodoList(todoState));
+            dispatch(setTodoList(newTodoState));
         }
     };
 
@@ -151,13 +151,14 @@ export const useFilterTodoListByImportant = () => {
     const todos = useGetTodoList();
     const dispatch = useDispatch();
     const groupManager = useGetGroupManager();
+    const filterCode = useGetTabFilterCode();
 
     let todoList = [];
 
     const filter = () => {
         if (
-            groupManager.importantGroupId !== null &&
-            groupManager.selectedGroupId == groupManager.importantGroupId
+            (groupManager.importantGroupId !== null &&
+            groupManager.selectedGroupId == groupManager.importantGroupId) || filterCode === "important"
         ) {
             todos.map((todo) => {
                 if (todo.isImportant === true) {
@@ -196,14 +197,21 @@ export const useDeleteTodo = () => {
 export const useFilterByCompletedTodos = () => {
     const dispatch = useDispatch();
     const db = useDatabase();
-    const getSelectedGroupId = useGetSelectedGroupId();
+    const groupManager = useGetGroupManager();
 
     const filter = async (isComplete = false) => {
         const todoService = new TodoDataService(db);
-        const result = await todoService.getListByCompleteAndGroup(
-            isComplete,
-            getSelectedGroupId
-        );
+        let result = {};
+        if(groupManager.selectedGroupId !== groupManager.importantGroupId) {
+            result = await todoService.getListByCompleteAndGroup(
+                isComplete,
+                groupManager.selectedGroupId
+            );
+        } else {
+            result = await todoService.getListByCompleteAndImportant(
+                isComplete,
+            );
+        }
         dispatch(setTodoList(result));
         let filterCode = isComplete === true ? "complete" : "notComplete";
         dispatch(changeTabFilterCode(filterCode));

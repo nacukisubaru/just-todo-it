@@ -33,13 +33,28 @@ export default class TodoDataService extends DataService {
     };
 
     getListByCompleteAndGroup = async (isComplete = false, groupId) => {
-        const filter = [{ field: "isComplete", logic: "==", value: isComplete }, { field: "groupId", logic: "==", value: groupId }];
+        const filter = [
+            { field: "isComplete", logic: "==", value: isComplete },
+            { field: "groupId", logic: "==", value: groupId },
+        ];
         const result = await this.getList(filter);
         return result;
     };
 
     getListByImportantAndGroup = async (groupId) => {
-        const filter = [{ field: "isImportant", logic: "==", value: true }, { field: "groupId", logic: "==", value: groupId }];
+        const filter = [
+            { field: "isImportant", logic: "==", value: true },
+            { field: "groupId", logic: "==", value: groupId },
+        ];
+        const result = await this.getList(filter);
+        return result;
+    };
+
+    getListByCompleteAndImportant = async (isComplete) => {
+        const filter = [
+            { field: "isImportant", logic: "==", value: true },
+            { field: "isComplete", logic: "==", value: isComplete },
+        ];
         const result = await this.getList(filter);
         return result;
     };
@@ -60,7 +75,6 @@ export default class TodoDataService extends DataService {
                 todoService.deleteTodo();
             });
             const res = await this.getListByGroup(groupId);
-            console.log(res);
         }
     };
 }
