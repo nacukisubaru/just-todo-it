@@ -23,7 +23,7 @@ export const useSetTodoListByGroup = (groupId) => {
             if (importantGroupId === groupId) {
                 groupList = await todoService.getListByCompleteAndImportant(isComplete);
             } else {
-                if(tabFilterCode == "important") {
+                if(tabFilterCode === "important") {
                     groupList = await todoService.getListByImportantAndGroup(groupId);
                 } else {
                     groupList = await todoService.getListByCompleteAndGroup(
@@ -36,7 +36,7 @@ export const useSetTodoListByGroup = (groupId) => {
             dispatch(selectGroupId(groupId));
             return groupList;
         },
-        [db, dispatch]
+        [db, dispatch, importantGroupId]
     );
 
     useEffect(() => {
@@ -98,7 +98,7 @@ export const useSetComplete = () => {
             });
             const isComplete = !currentTodo.isComplete;
             let newTodoState = [];
-            todoState.map((todo) => {
+            todoState.forEach((todo) => {
                 if (todo.id !== todoId || filterCode === "important") {
                     if(filterCode === "important" && todo.id === todoId ) {
                         todo.isComplete = isComplete;
@@ -133,7 +133,7 @@ export const useChangeTodoImportant = () => {
         });
         const isImportant = !currentTodo.isImportant;
         const todoListNewState = todoList.map((todo) => {
-            if (todo.id == todoId) {
+            if (todo.id === todoId) {
                 todo.isImportant = isImportant;
             }
             return todo;
@@ -162,9 +162,9 @@ export const useFilterTodoListByImportant = () => {
     const filter = () => {
         if (
             (groupManager.importantGroupId !== null &&
-            groupManager.selectedGroupId == groupManager.importantGroupId) || filterCode === "important"
+            groupManager.selectedGroupId === groupManager.importantGroupId) || filterCode === "important"
         ) {
-            todos.map((todo) => {
+            todos.forEach((todo) => {
                 if (todo.isImportant === true) {
                     todoList.push(todo);
                 }
@@ -187,8 +187,8 @@ export const useDeleteTodo = () => {
     const remove = (todoId) => {
         const todoService = new TodoDataService(db, todoId);
         todoService.delete();
-        todos.map((todo) => {
-            if (todo.id != todoId) {
+        todos.forEach((todo) => {
+            if (todo.id !== todoId) {
                 todoList.push(todo);
             }
         });

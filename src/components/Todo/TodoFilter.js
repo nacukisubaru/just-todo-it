@@ -2,7 +2,6 @@ import * as React from "react";
 import { styled } from "@mui/system";
 import TabsUnstyled from "@mui/base/TabsUnstyled";
 import TabsListUnstyled from "@mui/base/TabsListUnstyled";
-import TabPanelUnstyled from "@mui/base/TabPanelUnstyled";
 import { buttonUnstyledClasses } from "@mui/base/ButtonUnstyled";
 import TabUnstyled, { tabUnstyledClasses } from "@mui/base/TabUnstyled";
 import { useFilterByCompletedTodos } from "../../api/apiHooks/todoHooks";
@@ -57,12 +56,6 @@ const Tab = styled(TabUnstyled)`
         opacity: 0.5;
         cursor: not-allowed;
     }
-`;
-
-const TabPanel = styled(TabPanelUnstyled)`
-    width: 100%;
-    font-family: IBM Plex Sans, sans-serif;
-    font-size: 0.875rem;
 `;
 
 const TabsList = styled(TabsListUnstyled)`

@@ -70,11 +70,10 @@ export default class TodoDataService extends DataService {
     deleteByGroup = async (groupId) => {
         if (groupId && groupId.length > 0) {
             const todoList = await this.getListByGroup(groupId);
-            todoList.map((todo) => {
+            todoList.forEach((todo) => {
                 const todoService = new TodoDataService(this.db, todo.id);
                 todoService.deleteTodo();
             });
-            const res = await this.getListByGroup(groupId);
         }
     };
 }

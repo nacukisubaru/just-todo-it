@@ -9,7 +9,7 @@ function App() {
     useConnect();
     useSetGroupsList();
 
-    return <AppDrawer></AppDrawer>;
+    return (<div className="wrapper"><AppDrawer></AppDrawer></div>);
 }
 
 export default App;

@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import MailIcon from "@mui/icons-material/Mail";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
 import Button from "@mui/material/Button";
 import { useGetGroupList } from "../../api/apiHooks/groupHooks";
 import MenuItemDrawer from "./MenuItemDrawer";
@@ -24,17 +19,21 @@ export default function MenuDrawer() {
     const groups = useGetGroupList();
     const state = useSelector((state) => state.appManager.showBtnAddGroup);
     const dispatch = useDispatch();
+    //из за этого хука варнинг в консоли надо разобраться
     const inputHandler = useChangeInputHandler();
     const group = useAddGroup();
     const importantGroup = useCreateImportantGroup();
-    const arrayPresetGroups = [{ id: importantGroup.id, name: "Важное", code: "IMPORTANT" }];
-    
+    const arrayPresetGroups = [
+        { id: importantGroup.id, name: "Важное", code: "IMPORTANT" },
+    ];
+
     let groupsList = [];
-    !!groups.length && groups.map((group) => {
-        if(group.id !== importantGroup.id) {
-            groupsList.push(group);
-        }
-    });
+    !!groups.length &&
+        groups.forEach((group) => {
+            if (group.id !== importantGroup.id) {
+                groupsList.push(group);
+            }
+        });
 
     const handlerClickAddGroup = () => {
         dispatch(toggleBtnAddGroup(!state));
@@ -74,10 +73,10 @@ export default function MenuDrawer() {
             <Divider />
             <List>
                 {arrayPresetGroups.map((group) => (
-                     <MenuItemDrawer
-                     props={group}
-                     key={group.id}
-                 ></MenuItemDrawer>
+                    <MenuItemDrawer
+                        props={group}
+                        key={group.id}
+                    ></MenuItemDrawer>
                 ))}
             </List>
             <Divider />

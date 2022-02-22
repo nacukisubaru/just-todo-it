@@ -10,7 +10,6 @@ import MenuActionsDrawer from "./MenuActionsDrawer";
 import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleGroupMenu } from "../../redux/actions/appAction";
-import { selectGroupId } from "../../redux/actions/groupAction";
 import { useGetTabFilterCode } from "../../api/apiHooks";
 
 export default function MenuItemDrawer(group) {
@@ -27,10 +26,10 @@ export default function MenuItemDrawer(group) {
 
     return (
         <Grid container spacing={1}>
-            <Grid xs={15}>
+            <Grid xs={15} item={true}>
                 <ListItem button key={group.props.id}>
                     <ListItemIcon>
-                        {group.props.code == "IMPORTANT" ? (
+                        {group.props.code === "IMPORTANT" ? (
                             <InboxIcon />
                         ) : (
                             <IconButton onClick={handlerClickGroupMenu}>
