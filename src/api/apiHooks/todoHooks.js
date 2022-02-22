@@ -85,6 +85,7 @@ export const useSetComplete = () => {
     const db = useDatabase();
     const state = useGetTodoList();
     const dispatch = useDispatch();
+    const filterCode = useGetTabFilterCode();
 
     const changeComplete = async (todoId) => {
         let currentTodo = {};
@@ -98,7 +99,10 @@ export const useSetComplete = () => {
             const isComplete = !currentTodo.isComplete;
             let newTodoState = [];
             todoState.map((todo) => {
-                if (todo.id !== todoId) {
+                if (todo.id !== todoId || filterCode === "important") {
+                    if(filterCode === "important" && todo.id === todoId ) {
+                        todo.isComplete = isComplete;
+                    }
                     newTodoState.push(todo);
                 }
             });
