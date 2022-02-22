@@ -5,6 +5,7 @@ import { setGroup } from "../../redux/actions/groupAction";
 import { useDatabase } from ".";
 import { setImportantGroupId } from "../../redux/actions/groupAction";
 import { setGroupsList } from "../../redux/actions/groupAction";
+import { toggleGroupMenu } from "../../redux/actions/appAction";
 
 export const useGetGroupList = () => {
     return useSelector((state) => state.groupManager.groups);
@@ -88,7 +89,7 @@ export const useDeleteGroup = () => {
             group.id !== groupId && newGroups.push(group)
         ));
         dispatch(setGroupsList(newGroups));
-        
+        dispatch(toggleGroupMenu({ isOpen:false, groupId:'' }));
     };
 
     return {remove};
