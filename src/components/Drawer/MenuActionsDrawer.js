@@ -7,11 +7,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ContentCut from "@mui/icons-material/ContentCut";
 import { useDeleteGroup } from "../../api/apiHooks/groupHooks";
 import { useSelector } from "react-redux";
+import { useClickMenuActionsHandler } from "../../api/apiHooks/eventHandlerHooks";
 
 export default function MenuActionsDrawer(group) {
     const currentGroup = group.group.props;
     const deleteGroup = useDeleteGroup();
     const stateMenu = useSelector((state)=> state.appManager.groupMenu);
+    const handlerClickMenuActions = useClickMenuActionsHandler();
     
     return stateMenu.isOpen === true && currentGroup.id === stateMenu.groupId ? (
         <Paper  sx={{ width: 320, maxWidth: "50%" }}>
@@ -21,6 +23,12 @@ export default function MenuActionsDrawer(group) {
                         <ContentCut fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>Удалить</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={()=>{handlerClickMenuActions.toggleAction(false, currentGroup.id)}}>
+                    <ListItemIcon>
+                        <ContentCut fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Изменить</ListItemText>
                 </MenuItem>
             </MenuList>
         </Paper>

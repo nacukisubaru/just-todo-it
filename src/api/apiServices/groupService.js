@@ -28,4 +28,10 @@ export default class GroupService extends DataService {
             await this.delete();
         }
     }
+
+    update = async (fields) => {
+        if(typeof fields === "object") {
+            await this.updateDocField(fields);
+        }
+    }
 }

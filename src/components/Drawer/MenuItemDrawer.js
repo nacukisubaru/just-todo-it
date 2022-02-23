@@ -8,21 +8,41 @@ import { useSetTodoListByGroup } from "../../api/apiHooks/todoHooks";
 import IconButton from "@mui/material/IconButton";
 import MenuActionsDrawer from "./MenuActionsDrawer";
 import Grid from "@mui/material/Grid";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleGroupMenu } from "../../redux/actions/appAction";
 import { useGetTabFilterCode } from "../../api/apiHooks";
+import { useClickMenuActionsHandler } from "../../api/apiHooks/eventHandlerHooks";
+import Input from "@mui/material/Input";
+import { useSelector } from "react-redux";
+import { useUpdateGroupName } from "../../api/apiHooks/groupHooks";
+import { useChangeInputHandler } from "../../api/apiHooks/eventHandlerHooks";
 
 export default function MenuItemDrawer(group) {
     const todoList = useSetTodoListByGroup("");
-    const dispatch = useDispatch();
-    const stateMenu = useSelector((state) => state.appManager.groupMenu);
-    const handlerClickGroupMenu = () => {
-        const isOpen = !stateMenu.isOpen;
-        dispatch(toggleGroupMenu({ isOpen, groupId: group.props.id }));
-        //dispatch(selectGroupId(group.id));
+    const handlerClickMenuActions = useClickMenuActionsHandler();
+    const tabFilterCode = useGetTabFilterCode();
+    const groupField = useSelector(
+        (state) => state.appManager.editGroupNameField
+    );
+    const updateGroupName = useUpdateGroupName();
+    const inputChange = useChangeInputHandler('');
+
+    const handlerUpdateGroupName = (event) => {
+        event.preventDefault();
+        const name = inputChange.state.groupNameEditField;
+        updateGroupName.update(name, group.props.id);
+    }
+
+    let style = {
+        width: 1500,
+        maxWidth: "100%",
+        display: "none",
     };
 
-    const tabFilterCode = useGetTabFilterCode();
+    let styleGroupItemName = { padding: "10px" };
+
+    if (groupField.isOpen && group.props.id === groupField.groupId) {
+        style.display = "block";
+        styleGroupItemName.display = "none";
+    }
 
     return (
         <Grid container spacing={1}>
@@ -32,7 +52,14 @@ export default function MenuItemDrawer(group) {
                         {group.props.code === "IMPORTANT" ? (
                             <InboxIcon />
                         ) : (
-                            <IconButton onClick={handlerClickGroupMenu}>
+                            <IconButton
+                                onClick={() => {
+                                    handlerClickMenuActions.toggleAction(
+                                        true,
+                                        group.props.id
+                                    );
+                                }}
+                            >
                                 <MenuIcon />
                             </IconButton>
                         )}
@@ -41,9 +68,12 @@ export default function MenuItemDrawer(group) {
                         onClick={() => {
                             todoList.getList(group.props.id, tabFilterCode);
                         }}
-                        style={{padding:'10px'}}
+                        style={styleGroupItemName}
                         primary={group.props.name}
                     />
+                    <form onSubmit={handlerUpdateGroupName}>
+                        <Input id="component" style={style} name="groupNameEditField" onChange={(event)=>{inputChange.setField(event)}} defaultValue={group.props.name}/>
+                    </form>
                 </ListItem>
             </Grid>
             <Grid style={{ marginLeft: "25px" }}>

@@ -6,6 +6,7 @@ import { useDatabase } from ".";
 import { setImportantGroupId } from "../../redux/actions/groupAction";
 import { setGroupsList } from "../../redux/actions/groupAction";
 import { toggleGroupMenu } from "../../redux/actions/appAction";
+import { useClickMenuActionsHandler } from "./eventHandlerHooks";
 
 export const useGetGroupList = () => {
     return useSelector((state) => state.groupManager.groups);
@@ -19,13 +20,13 @@ export const useGetGroupManager = () => {
     return useSelector((state) => state.groupManager);
 };
 
-export const useCheckEqualsBetweenImportantGroupAndSelectedGroupId = () => { 
+export const useCheckEqualsBetweenImportantGroupAndSelectedGroupId = () => {
     const groupManager = useGetGroupManager();
-    if(groupManager.importantGroupId === groupManager.selectedGroupId) {
+    if (groupManager.importantGroupId === groupManager.selectedGroupId) {
         return true;
     }
     return false;
-}
+};
 
 export const useAddGroup = () => {
     const state = useGetGroupList();
@@ -85,14 +86,12 @@ export const useDeleteGroup = () => {
     const remove = async (groupId) => {
         const groupService = new GroupService(db, groupId);
         await groupService.deleteCompletly();
-        groups.map((group)=>(
-            group.id !== groupId && newGroups.push(group)
-        ));
+        groups.map((group) => group.id !== groupId && newGroups.push(group));
         dispatch(setGroupsList(newGroups));
-        dispatch(toggleGroupMenu({ isOpen:false, groupId:'' }));
+        dispatch(toggleGroupMenu({ isOpen: false, groupId: "" }));
     };
 
-    return {remove};
+    return { remove };
 };
 
 export const useSetGroupsList = () => {
@@ -103,13 +102,38 @@ export const useSetGroupsList = () => {
     const set = useCallback(async () => {
         const groupService = new GroupService(db);
         const groupList = await groupService.getList();
-        
+
         dispatch(setGroupsList(groupList));
-    },[db, dispatch])
+    }, [db, dispatch]);
 
     useEffect(() => {
         set();
     }, [set]);
 
     return { getGroupList, set };
+};
+
+export const useUpdateGroupName = () => {
+    const db = useDatabase();
+    const getGroupList = useGetGroupList();
+    const dispatch = useDispatch();
+    const menuActionsHandler = useClickMenuActionsHandler();
+
+    const update = async (name, groupId) => {
+        let groupsList = [];
+        const groupService = new GroupService(db, groupId);
+        await groupService.update({ name });
+        getGroupList.forEach((group) => {
+            let newGroup = group;
+            if (newGroup.id === groupId) {
+                newGroup.name = name;
+            }
+            groupsList.push(newGroup);
+        });
+        dispatch(setGroupsList(groupsList));
+        menuActionsHandler.toggleAction(false ,'');
+        menuActionsHandler.toggleAction(true ,'');
+    };
+
+    return { update };
 };

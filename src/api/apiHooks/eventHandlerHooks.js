@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { toggleGroupMenu } from "../../redux/actions/appAction";
+import { useDispatch, useSelector } from "react-redux";
+import { changeEditGroupField } from "../../redux/actions/appAction";
 
 export const useChangeInputHandler = (event) => {
     const currentState = useSelector((state) => state);
@@ -14,6 +16,27 @@ export const useChangeInputHandler = (event) => {
 
     return {
         state,
-        setField
+        setField,
     };
+};
+
+export const useClickMenuActionsHandler = () => {
+    let isOpen = false;
+    const dispatch = useDispatch();
+    const stateMenu = useSelector((state) => state.appManager.groupMenu);
+    const groupField = useSelector((state) => state.appManager.editGroupNameField);
+
+    const toggleAction = (isMenuBtn = true, groupId) => {
+        if (isMenuBtn) {
+            isOpen = !stateMenu.isOpen;
+            dispatch(toggleGroupMenu({isOpen, groupId }));
+        } else {
+            isOpen = !groupField.isOpen;
+            dispatch(changeEditGroupField({isOpen, groupId}));
+        }
+    }
+
+    return {
+        toggleAction
+    }
 };
